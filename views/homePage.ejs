@@ -1,5 +1,23 @@
 <%- include('header');%>
 
-
+<%products.forEach(function(elm) {%>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-3 col-sm-offset-1">
+				<a href=""><img class="img-responsive prodLogo text-center" src="<%=elm.picture%>"></a>
+			</div>
+			<div class="col-sm-8">
+				<h4 class="prodName">
+					<a href="/item/<%=elm._id%>"><%=elm.name%></a>
+				</h4>
+				<p><%=elm.short%></p>
+				<strong><%=elm.price%>.00 $</strong>
+				<br>
+				<a href="<%=elm._id%>">Learn more</a>
+			</div>
+		</div>
+		<hr>
+	</div>
+<%})%>
 
 <%- include('footer');%>

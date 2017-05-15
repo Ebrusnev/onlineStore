@@ -49,6 +49,6 @@ MongoClient.connect('mongodb://localhost:27017/onlineStore', function(err, db) {
 
  //------------------------Server Listening--------------------\\
 
-app.listen(5555, function() {
-	console.log('Server is listenin on port 4044!');
+app.listen(5556, function() {
+	console.log('Server is listenin on port 5556!');
 });
