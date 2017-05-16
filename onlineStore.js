@@ -43,7 +43,20 @@ MongoClient.connect('mongodb://localhost:27017/onlineStore', function(err, db) {
 
 //---------------------Cart Render---------------------------\\
 
-
+	app.post('/cart', function(req, res){
+		var timeStamp = req.cookies.user;
+		if (!timeStamp) {
+			timeStamp = new Date.getTime()
+			res.cookie('user', timeStamp);
+		}
+		db.collection('carts')
+		.insertOne({
+			productID: new mongo.ObjectID(req.params.id),
+			user: timeStamp
+		}, function(err){
+			res.end();
+		})
+	})
 
 })
 

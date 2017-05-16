@@ -1,3 +1,6 @@
-img{
-	vertical-align: middle;
+.prodName{
+	margin-top: 0;
+}
+.centered{
+	margin: 0 auto;
 }
