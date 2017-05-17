@@ -1,12 +1,20 @@
-$(ducument).ready(function(){
-	var button = $('#addToCart');
+$(function(){
 
-	button.on('click', function(e){
+	$('.addToCart').on('click', function(e){
 		e.preventDefault();
+		var id = $(this).attr('data-id');
 		$.ajax({
 			type: 'POST',
 			url: '/cart',
-			data: ''
+			data: {
+				id: id
+			},
+			success: function(){
+				console.log('Product ' + id + ' added to the cart');
+			},
+			error: function(){
+				alert("Error adding to the cart");
+			}
 		})
 	})
-}
+})

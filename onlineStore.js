@@ -3,6 +3,7 @@ var ejs = require('ejs');
 var _ = require('underscore');
 var mongo = require('mongodb');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var MongoClient = mongo.MongoClient;
 var app = express();
 
@@ -10,6 +11,7 @@ var app = express();
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.use(cookieParser());
+app.use(bodyParser.urlencoded());
 
 MongoClient.connect('mongodb://localhost:27017/onlineStore', function(err, db) {
 	console.log("Connected to the DataBase");
@@ -35,30 +37,45 @@ MongoClient.connect('mongodb://localhost:27017/onlineStore', function(err, db) {
 		.find({_id: new mongo.ObjectID(req.params.id)})
 		.toArray(function(err, doc){
 			if (err) {
-				console.log("Error", err);
+				return console.log("Error", err);
 			}
 			res.render('productPage.ejs', {item: doc[0]});
 		})
 	})
 
-//---------------------Cart Render---------------------------\\
+//---------------------Item adding to DB---------------------------\\
 
 	app.post('/cart', function(req, res){
 		var timeStamp = req.cookies.user;
 		if (!timeStamp) {
-			timeStamp = new Date.getTime()
+			timeStamp = (new Date).getTime();
 			res.cookie('user', timeStamp);
 		}
 		db.collection('carts')
 		.insertOne({
-			productID: new mongo.ObjectID(req.params.id),
+			productID: req.body.id,
 			user: timeStamp
 		}, function(err){
+			console.log("product added to the database", req.body.id)
 			res.end();
+		})
+	})
+	//--------------------------Cart Page-----------------------\\
+
+	app.get('/cart/allProducts', function(req, res){
+		db.collection('carts')
+		.find({user: req.cookies.user})
+		.project({productID: true})
+		.toArray(function(err, user){
+			if (err) {
+				return console.log("Error", err);
+			}
+			console.log(user);
 		})
 	})
 
 })
+
 
  //------------------------Server Listening--------------------\\
 
