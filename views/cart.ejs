@@ -1,5 +1,41 @@
 <%- include('header');%>
 
+<div class="container bordered">
 
+	<%prods.forEach(function(elm){%>
+		<div class="row in-cart">
+			<div class="col-sm-2 col-sm-offset-2">
+				<img class="img-responsive" src="<%= elm.picture%>">
+			</div>
+			<div class="col-sm-4">
+				<srong><a href="/item/<%=elm._id%>"><%=elm.name%></a></srong>
+				<br>
+				<small><%=elm.short%></small>
+			</div>
+			<div class="col-sm-1">
+				<%=elm.price%>.00 $
+			</div>
+			<div class="col-sm-1">
+				<input type="text" name="quantity">
+			</div>
+			<div class="col-sm-1">
+				<button class="remove">x</button>
+			</div>
+		</div>
+		<hr>		
+	<%})%>
+</div>
+<br>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-1 col-sm-offset-8">
+			<button class="checkout"> Check Out!</button>
+		</div>
+		<div class="col-sm-1">
+			<a href="/">Continue Shoping</a>
+		</div>
+	</div>
+
+</div>
 
 <%- include('footer');%>

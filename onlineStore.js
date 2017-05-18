@@ -48,7 +48,7 @@ MongoClient.connect('mongodb://localhost:27017/onlineStore', function(err, db) {
 	app.post('/cart', function(req, res){
 		var timeStamp = req.cookies.user;
 		if (!timeStamp) {
-			timeStamp = (new Date).getTime();
+			timeStamp = new Date().getTime();
 			res.cookie('user', timeStamp);
 		}
 		db.collection('carts')
@@ -62,15 +62,28 @@ MongoClient.connect('mongodb://localhost:27017/onlineStore', function(err, db) {
 	})
 	//--------------------------Cart Page-----------------------\\
 
-	app.get('/cart/allProducts', function(req, res){
+	app.get('/cart/yourCart', function(req, res){
+		var ids = [];
 		db.collection('carts')
 		.find({user: req.cookies.user})
-		.project({productID: true})
-		.toArray(function(err, user){
+		.toArray(function(err, carts){
 			if (err) {
 				return console.log("Error", err);
 			}
-			console.log(user);
+			carts.forEach(function(elm){
+				console.log(elm);
+				ids.push(new mongo.ObjectID(elm.productID));
+			})
+			console.log(ids);
+			db.collection('products')
+			.find({_id: {$in: ids}})
+			.toArray(function(err, prods){
+				if (err) {
+					return console.log("Error", err);
+				}
+				console.log(prods);
+				res.render('cart.ejs', {prods: prods});
+			})
 		})
 	})
 
