@@ -11,12 +11,12 @@
 					<a href="/item/<%=elm._id%>"><%=elm.name%></a>
 				</h3>
 				<p><%=elm.short%></p>
-				<strong><%=elm.price%>.00 $</strong>
+				<strong class="pull-right"><%=elm.price%>.00 $</strong>
 				<br>
-				<ul class="nav nav-pills">
-					<li role="presentation"><a href="/item/<%=elm._id%>">Learn more</a></li>
-					<li role="presentation"><button data-id = "<%=elm._id%>" class="addToCart">Add to Cart</button></li>
-				</ul>
+				<div class="pull-right">
+					<a href="/item/<%=elm._id%>" class="btn btn-default" role="button">Learn more</a>
+					<button data-id = "<%=elm._id%>" class="addToCart btn btn-default">Add to Cart</button>
+				</div>
 			</div>
 		</div>
 		<hr>

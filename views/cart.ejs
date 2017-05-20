@@ -12,14 +12,14 @@
 				<br>
 				<small><%=elm.short%></small>
 			</div>
-			<div class="col-sm-1">
+			<div class="col-sm-2">
 				<%=elm.price%>.00 $
 			</div>
 			<div class="col-sm-1">
 				<input type="text" name="quantity">
 			</div>
 			<div class="col-sm-1">
-				<button class="remove">x</button>
+				<button class="remove btn btn-danger btn-xs" data-id = "<%=elm._id%>">x</button>
 			</div>
 		</div>
 		<hr>		
@@ -28,14 +28,15 @@
 <br>
 <div class="container">
 	<div class="row">
-		<div class="col-sm-1 col-sm-offset-8">
-			<button class="checkout"> Check Out!</button>
-		</div>
-		<div class="col-sm-1">
-			<a href="/">Continue Shoping</a>
+		<div class="col-sm-5 col-sm-offset-7 pull-right">
+			<form method="post" action="/checkOut" class="form-checkingOut">
+		    	<input class="form-control" type="text" name="name" placeholder="Enter Your Name" id="name">
+		    	<br>
+		    	<button type="submit" class="btn btn-primary" id="checkout" disabled> Check Out!</button>
+		    	<a href="/" role="button" class="btn btn-default">Continue Shoping</a>
+		    </form>
 		</div>
 	</div>
-
 </div>
 
 <%- include('footer');%>

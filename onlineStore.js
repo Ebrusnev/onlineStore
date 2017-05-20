@@ -43,7 +43,7 @@ MongoClient.connect('mongodb://localhost:27017/onlineStore', function(err, db) {
 		})
 	})
 
-//---------------------Item adding to DB---------------------------\\
+//---------------------Item adding cart to DB---------------------------\\
 
 	app.post('/cart', function(req, res){
 		var timeStamp = req.cookies.user;
@@ -60,7 +60,22 @@ MongoClient.connect('mongodb://localhost:27017/onlineStore', function(err, db) {
 			res.end();
 		})
 	})
-	//--------------------------Cart Page-----------------------\\
+
+//------------------------------Item removing from the cart----------------------------\\
+
+/*	app.post('/remove', function(req, res){
+		db.collection('carts')
+		.find({_id: new mongo.ObjectID(req.body.id)})
+		.toArray(function(err, removes){
+			if (err) {
+				console.log("Error", err);
+			}
+			console.log('removing: ', removes.productID);
+		})
+	})
+*/
+
+	//--------------------------Cart Page render-----------------------\\
 
 	app.get('/cart/yourCart', function(req, res){
 		var ids = [];
@@ -71,24 +86,50 @@ MongoClient.connect('mongodb://localhost:27017/onlineStore', function(err, db) {
 				return console.log("Error", err);
 			}
 			carts.forEach(function(elm){
-				console.log(elm);
 				ids.push(new mongo.ObjectID(elm.productID));
 			})
-			console.log(ids);
 			db.collection('products')
 			.find({_id: {$in: ids}})
 			.toArray(function(err, prods){
 				if (err) {
 					return console.log("Error", err);
 				}
-				console.log(prods);
 				res.render('cart.ejs', {prods: prods});
 			})
 		})
 	})
 
-})
 
+
+//--------------------------Checking Out----------------------\\
+
+	app.post('/checkOut', function(req, res){
+		var toOrder = [];
+		db.collection('carts')
+		.find({user: req.cookies.user})
+		.toArray(function(err, orders){
+			if (err) {
+				return console.log("Error", err);
+			}
+			orders.forEach(function(elm){
+				toOrder.push(new mongo.ObjectID(elm.productID));
+			})
+			console.log(toOrder);
+/*			db.collection('carts')
+			.removeMany({user: req.cookies.user});*/
+		})
+/*		db.collection('orders')
+		.insertOne({
+			items: toOrder,
+			user: req.body.name,
+			shiped: false,
+			delivered: false
+		})*/
+		res.redirect('/');
+	})
+
+
+}) //db brakets
 
  //------------------------Server Listening--------------------\\
 
