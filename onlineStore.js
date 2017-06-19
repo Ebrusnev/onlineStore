@@ -115,17 +115,19 @@ MongoClient.connect('mongodb://localhost:27017/onlineStore', function(err, db) {
 				toOrder.push(new mongo.ObjectID(elm.productID));
 			})
 			console.log(toOrder);
-/*			db.collection('carts')
-			.removeMany({user: req.cookies.user});*/
+			db.collection('orders')
+				.insertOne({
+				items: toOrder,
+				user: req.body.name,
+				shiped: false,
+				delivered: false
+			}, function(err){
+				db.collection('carts')
+				.removeMany({user: req.cookies.user}, function(err){
+					res.redirect('/');
+				})
+			})
 		})
-/*		db.collection('orders')
-		.insertOne({
-			items: toOrder,
-			user: req.body.name,
-			shiped: false,
-			delivered: false
-		})*/
-		res.redirect('/');
 	})
 
 

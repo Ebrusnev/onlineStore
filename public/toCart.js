@@ -35,8 +35,7 @@ $(function(){
 		})
 	})*/
 
-	nameLine.on('keyup', function(e){
-		e.preventDefault();
+	nameLine.on('keyup keydown blur', function(e){
 		if (nameLine.val().length>2 && (isNaN(nameLine.val()))) {
 			checkout.removeAttr('disabled');
 		}
@@ -54,5 +53,4 @@ $(function(){
 			data: {name: nameLine.val()}
 		})
 	})
-
 })

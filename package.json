@@ -4,7 +4,7 @@
   "description": "",
   "main": "onlineStore.js",
   "scripts": {
-    "start": "nodemon onlineStore.js",
+    "start": "node onlineStore.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
